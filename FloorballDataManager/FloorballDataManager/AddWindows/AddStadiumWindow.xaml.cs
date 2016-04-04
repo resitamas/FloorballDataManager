@@ -41,10 +41,19 @@ namespace WpfApplication1
 
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            RESTHelper.AddStadium(StadiumName, Address);
 
-            MessageBox.Show("A stadion sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+            try
+            {
+                RESTHelper.AddStadium(StadiumName, Address);
+
+                MessageBox.Show("A stadion sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void BackButtonClicked(object sender, RoutedEventArgs e)

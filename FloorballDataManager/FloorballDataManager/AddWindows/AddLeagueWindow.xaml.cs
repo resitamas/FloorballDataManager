@@ -52,10 +52,18 @@ namespace WpfApplication1
 
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            RESTHelper.AddLeague(LeagueName,DateTime.ParseExact(Year,"yyyy", CultureInfo.InvariantCulture),Type,Class1,Convert.ToInt32(Rounds));
+            try
+            {
+                RESTHelper.AddLeague(LeagueName, DateTime.ParseExact(Year, "yyyy", CultureInfo.InvariantCulture), Type, Class1, Convert.ToInt32(Rounds));
+                MessageBox.Show("A bajnokság sikeresen létrejött!", "Siekers mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch (Exception)
+            {
 
-            MessageBox.Show("A bajnokság sikeresen létrejött!", "Siekers mentés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+            }
+
+           
         }
 
         private void BackButtonClicked(object sender, RoutedEventArgs e)

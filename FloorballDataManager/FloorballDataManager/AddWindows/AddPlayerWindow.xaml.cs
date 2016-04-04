@@ -46,10 +46,18 @@ namespace WpfApplication1.AddWindows
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
 
-            RESTHelper.AddPlayer(PlayerName, Convert.ToInt32(Id), Convert.ToInt16(Number), BirthDate);
+            try
+            {
+                RESTHelper.AddPlayer(PlayerName, Convert.ToInt32(Id), Convert.ToInt16(Number), BirthDate);
 
-            MessageBox.Show("A játékos sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+                MessageBox.Show("A játékos sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void BackButtonClicked(object sender, RoutedEventArgs e)

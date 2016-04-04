@@ -18,6 +18,8 @@ namespace WpfApplication1
 
         public IRestResponse ExecuteRequest(string path, Method method, Dictionary<string, string> urlParams = null, Dictionary<string, string> queryParams = null, object body = null, Dictionary<string,string> headers = null)
         {
+            RestResponse response;
+
             request = new RestRequest(path,method);
             if (urlParams != null)
             {
@@ -37,16 +39,34 @@ namespace WpfApplication1
             switch (method)
             {
                 case Method.GET:
-                    return ExecuteGET(urlParams);
+                    response = ExecuteGET(urlParams) as RestResponse;
+                    break;
                 case Method.POST:
-                    return ExecutePOST(body);
+                    response = ExecutePOST(body) as RestResponse;
+                    break;
                 case Method.PUT:
-                    return null;
+                    response = ExecutePUT() as RestResponse;
+                    break;
                 case Method.DELETE:
-                    return ExecuteDELETE();
+                    response = ExecuteDELETE() as RestResponse;
+                    break;
                 default:
                     return null;
             }
+
+            if (response.ErrorException != null)
+            {
+                throw response.ErrorException;
+            }
+            else
+            {
+                if (response.StatusCode.ToString().First() == '4')
+                {
+                    throw new Exception(response.Content);
+                }
+            }
+
+            return response;
         }
 
         private IRestResponse ExecuteGET(Dictionary<string,string> queryParams)
@@ -74,6 +94,11 @@ namespace WpfApplication1
         }
 
         private IRestResponse ExecuteDELETE()
+        {
+            return Execute(request);
+        }
+
+        private IRestResponse ExecutePUT()
         {
             return Execute(request);
         }

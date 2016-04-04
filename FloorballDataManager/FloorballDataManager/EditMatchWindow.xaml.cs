@@ -71,9 +71,19 @@ namespace WpfApplication1
             InitializeComponent();
 
             matchModel = m;
-            leagueModel = RESTHelper.GetLeagueById(m.LeagueId);
-            homeTeamModel = RESTHelper.GetTeamById(m.HomeTeamId);
-            awayTeamModel = RESTHelper.GetTeamById(m.AwayTeamId);
+            try
+            {
+                leagueModel = RESTHelper.GetLeagueById(m.LeagueId);
+                homeTeamModel = RESTHelper.GetTeamById(m.HomeTeamId);
+                awayTeamModel = RESTHelper.GetTeamById(m.AwayTeamId);
+                EventList = ModelHelper.FillEventsList(m.Id);
+                Teams = ModelHelper.FillHomeAndAwayTeamCombobox(m);
+            }
+            catch (Exception)
+            {
+
+            }
+            
 
             matchFinished.DataContext = this;
             matchInProgress.DataContext = this;
@@ -116,10 +126,7 @@ namespace WpfApplication1
             ActualTime = m.Time.TotalHours == 1 ?  "60:00" : m.Time.ToString(@"mm\:ss");
             NewTime = ActualTime != "60:00" ? ActualTime : "59:59";
 
-            EventList = ModelHelper.FillEventsList(m.Id);
-           
             EventTypes = new ObservableCollection<string>() {"Gól","Kiállítás","Időkérés","Büntető"};
-            Teams = ModelHelper.FillHomeAndAwayTeamCombobox(m);
 
             eventTypes.SelectedIndex = 0;
             teamCombobox.SelectedIndex = 0;
@@ -139,12 +146,20 @@ namespace WpfApplication1
             if (eventTypes.SelectedIndex == 0)
             {
 
-                FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                OnPropertyChanged("FirstCombobox");
-                SecondCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                OnPropertyChanged("SecondCombobox");
-                ThirdCombobox = ModelHelper.FillEventMessageCombobox("G");
-                OnPropertyChanged("ThirdCombobox");
+                try
+                {
+                    FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                    OnPropertyChanged("FirstCombobox");
+                    SecondCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                    OnPropertyChanged("SecondCombobox");
+                    ThirdCombobox = ModelHelper.FillEventMessageCombobox("G");
+                    OnPropertyChanged("ThirdCombobox");
+                }
+                catch (Exception)
+                {
+
+                }
+                
 
                 firstComboboxLabel.Content = "Gól";
                 secondComboboxLabel.Content = "Assziszt";
@@ -159,12 +174,20 @@ namespace WpfApplication1
             {
                 if (eventTypes.SelectedIndex == 1) 
                 {
-                    FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                    OnPropertyChanged("FirstCombobox");
-                    SecondCombobox = ModelHelper.FillComboboxFromStringList(new List<string>(new string[] { "2 perc", "5 perc", "2+10 perc", "Végleges" }));
-                    OnPropertyChanged("SecondCombobox");
-                    ThirdCombobox = null;
-                    OnPropertyChanged("ThirdCombobox");
+                    try
+                    {
+                        FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                        OnPropertyChanged("FirstCombobox");
+                        SecondCombobox = ModelHelper.FillComboboxFromStringList(new List<string>(new string[] { "2 perc", "5 perc", "2+10 perc", "Végleges" }));
+                        OnPropertyChanged("SecondCombobox");
+                        ThirdCombobox = null;
+                        OnPropertyChanged("ThirdCombobox");
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    
 
                     firstComboboxLabel.Content = "Kiállított";
                     secondComboboxLabel.Content = "Időtartalom";
@@ -200,12 +223,20 @@ namespace WpfApplication1
                         if (eventTypes.SelectedIndex == 3)
                         {
 
-                            FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                            OnPropertyChanged("FirstCombobox");
-                            SecondCombobox = null;
-                            OnPropertyChanged("SecondCombobox");
-                            ThirdCombobox = null;
-                            OnPropertyChanged("ThirdCombobox");
+                            try
+                            {
+                                FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                                OnPropertyChanged("FirstCombobox");
+                                SecondCombobox = null;
+                                OnPropertyChanged("SecondCombobox");
+                                ThirdCombobox = null;
+                                OnPropertyChanged("ThirdCombobox");
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                            
 
                             firstComboboxLabel.Content = "Játékos";
                             secondComboboxLabel.Content = "";
@@ -222,41 +253,50 @@ namespace WpfApplication1
 
         private void secondCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (eventTypes.SelectedIndex == 1)
+            try
             {
-                if (secondCombobox.SelectedIndex == 0)
+                if (eventTypes.SelectedIndex == 1)
                 {
-                    ThirdCombobox = ModelHelper.FillEventMessageCombobox("P2");
-                    OnPropertyChanged("ThirdCombobox");
-
-                }
-                else
-                {
-                    if (secondCombobox.SelectedIndex == 1)
+                    if (secondCombobox.SelectedIndex == 0)
                     {
-                        ThirdCombobox = ModelHelper.FillEventMessageCombobox("P5");
+
+                        ThirdCombobox = ModelHelper.FillEventMessageCombobox("P2");
                         OnPropertyChanged("ThirdCombobox");
-                        
+
                     }
                     else
                     {
-                        if (secondCombobox.SelectedIndex == 2)
+                        if (secondCombobox.SelectedIndex == 1)
                         {
-
-                            ThirdCombobox = ModelHelper.FillEventMessageCombobox("P10");
+                            ThirdCombobox = ModelHelper.FillEventMessageCombobox("P5");
                             OnPropertyChanged("ThirdCombobox");
 
                         }
                         else
                         {
+                            if (secondCombobox.SelectedIndex == 2)
+                            {
 
-                            ThirdCombobox = ModelHelper.FillEventMessageCombobox("V");
-                            OnPropertyChanged("ThirdCombobox");
+                                ThirdCombobox = ModelHelper.FillEventMessageCombobox("P10");
+                                OnPropertyChanged("ThirdCombobox");
 
+                            }
+                            else
+                            {
+
+                                ThirdCombobox = ModelHelper.FillEventMessageCombobox("V");
+                                OnPropertyChanged("ThirdCombobox");
+
+                            }
                         }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void AddCommandCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -268,59 +308,68 @@ namespace WpfApplication1
 
         private void AddCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            TimeSpan time = TimeSpan.ParseExact(NewTime, "mm\\:ss", CultureInfo.InvariantCulture);
-
-            if (eventTypes.SelectedIndex == 0)
+            try
             {
-                int e1 = RESTHelper.AddEvent(matchModel.Id, "G", time, Convert.ToInt32(firstCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
-                int e2 = RESTHelper.AddEvent(matchModel.Id, "A", time, Convert.ToInt32(secondCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
 
             }
-            else
+            catch (Exception)
             {
-                if (eventTypes.SelectedIndex == 1)
+                TimeSpan time = TimeSpan.ParseExact(NewTime, "mm\\:ss", CultureInfo.InvariantCulture);
+
+                if (eventTypes.SelectedIndex == 0)
                 {
-                    int index = secondCombobox.SelectedIndex;
-                    string type;
-                    if (index == 0)
-                    {
-                        type = "P2";
-                    } else
-                    {
-                        if (index == 1)
-                        {
-                            type = "P5";
-                        }
-                        else
-                        {
-                            if (index == 2)
-                            {
-                                type = "P10";
-                            }
-                            else
-                            {
-                                type = "PV";
-                            }
-                        }
-                    }
-                    
-                    int e1 = RESTHelper.AddEvent(matchModel.Id,type,time, Convert.ToInt32(firstCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
+                    int e1 = RESTHelper.AddEvent(matchModel.Id, "G", time, Convert.ToInt32(firstCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
+                    int e2 = RESTHelper.AddEvent(matchModel.Id, "A", time, Convert.ToInt32(secondCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
+
                 }
                 else
                 {
-                    if (eventTypes.SelectedIndex == 2)
+                    if (eventTypes.SelectedIndex == 1)
                     {
-                        int e1 = RESTHelper.AddEvent(matchModel.Id, "I", time, 46, -1  , Convert.ToInt32(teamCombobox.SelectedValue));
+                        int index = secondCombobox.SelectedIndex;
+                        string type;
+                        if (index == 0)
+                        {
+                            type = "P2";
+                        }
+                        else
+                        {
+                            if (index == 1)
+                            {
+                                type = "P5";
+                            }
+                            else
+                            {
+                                if (index == 2)
+                                {
+                                    type = "P10";
+                                }
+                                else
+                                {
+                                    type = "PV";
+                                }
+                            }
+                        }
+
+                        int e1 = RESTHelper.AddEvent(matchModel.Id, type, time, Convert.ToInt32(firstCombobox.SelectedValue), Convert.ToInt32(thirdCombobox.SelectedValue), Convert.ToInt32(teamCombobox.SelectedValue));
                     }
                     else
                     {
-                        int e1 = RESTHelper.AddEvent(matchModel.Id, "B", time, Convert.ToInt32(firstCombobox.SelectedValue), 47, -1);
+                        if (eventTypes.SelectedIndex == 2)
+                        {
+                            int e1 = RESTHelper.AddEvent(matchModel.Id, "I", time, 46, -1, Convert.ToInt32(teamCombobox.SelectedValue));
+                        }
+                        else
+                        {
+                            int e1 = RESTHelper.AddEvent(matchModel.Id, "B", time, Convert.ToInt32(firstCombobox.SelectedValue), 47, -1);
+                        }
                     }
                 }
-            }
 
-            EventList = ModelHelper.FillEventsList(matchModel.Id);
-            OnPropertyChanged("EventList");
+                EventList = ModelHelper.FillEventsList(matchModel.Id);
+                OnPropertyChanged("EventList");
+            }
+            
         }
 
         private void teamCombobox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -334,11 +383,18 @@ namespace WpfApplication1
 
             if (eventTypes.SelectedIndex == 0)
             {
+                try
+                {
+                    FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                    OnPropertyChanged("FirstCombobox");
+                    SecondCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                    OnPropertyChanged("SecondCombobox");
+                }
+                catch (Exception)
+                {
 
-                FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                OnPropertyChanged("FirstCombobox");
-                SecondCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                OnPropertyChanged("SecondCombobox");
+                }
+                
 
                 firstComboboxLabel.Content = "Gól";
                 secondComboboxLabel.Content = "Assziszt";
@@ -355,10 +411,18 @@ namespace WpfApplication1
             {
                 if (eventTypes.SelectedIndex == 1)
                 {
-                    FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
-                    OnPropertyChanged("FirstCombobox");
-                    SecondCombobox = ModelHelper.FillComboboxFromStringList(new List<string>(new string[] { "2 perc", "5 perc", "2+10 perc", "Végleges" }));
-                    OnPropertyChanged("SecondCombobox");
+                    try
+                    {
+                        FirstCombobox = ModelHelper.FillComboboxTeamMembersPlayedInMatch(selectedTeam, matchModel);
+                        OnPropertyChanged("FirstCombobox");
+                        SecondCombobox = ModelHelper.FillComboboxFromStringList(new List<string>(new string[] { "2 perc", "5 perc", "2+10 perc", "Végleges" }));
+                        OnPropertyChanged("SecondCombobox");
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                  
 
                     firstComboboxLabel.Content = "Kiállított";
                     secondComboboxLabel.Content = "Időtartalom";
@@ -373,12 +437,20 @@ namespace WpfApplication1
                     if (eventTypes.SelectedIndex == 2)
                     {
 
-                        FirstCombobox = ModelHelper.FillHomeAndAwayTeamCombobox(matchModel);
-                        OnPropertyChanged("FirstCombobox");
-                        SecondCombobox = null;
-                        OnPropertyChanged("SecondCombobox");
-                        ThirdCombobox = null;
-                        OnPropertyChanged("ThirdCombobox");
+                        try
+                        {
+                            FirstCombobox = ModelHelper.FillHomeAndAwayTeamCombobox(matchModel);
+                            OnPropertyChanged("FirstCombobox");
+                            SecondCombobox = null;
+                            OnPropertyChanged("SecondCombobox");
+                            ThirdCombobox = null;
+                            OnPropertyChanged("ThirdCombobox");
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                        
 
 
                         firstComboboxLabel.Content = "Csapat";
@@ -392,12 +464,20 @@ namespace WpfApplication1
                     {
                         if (eventTypes.SelectedIndex == 3)
                         {
-                            FirstCombobox = ModelHelper.FillHomeAndAwayTeamCombobox(matchModel);
-                            OnPropertyChanged("FirstCombobox");
-                            SecondCombobox = null;
-                            OnPropertyChanged("SecondCombobox");
-                            ThirdCombobox = null;
-                            OnPropertyChanged("ThirdCombobox");
+                            try
+                            {
+                                FirstCombobox = ModelHelper.FillHomeAndAwayTeamCombobox(matchModel);
+                                OnPropertyChanged("FirstCombobox");
+                                SecondCombobox = null;
+                                OnPropertyChanged("SecondCombobox");
+                                ThirdCombobox = null;
+                                OnPropertyChanged("ThirdCombobox");
+                            }
+                            catch (Exception)
+                            {
+
+                            }
+                           
 
                             firstComboboxLabel.Content = "Csapat";
                             secondComboboxLabel.Content = "";
@@ -417,9 +497,16 @@ namespace WpfApplication1
 
             int eventId = Convert.ToInt32(button.Tag);
 
-            RESTHelper.RemoveEvent(eventId);
+            try
+            {
+                RESTHelper.RemoveEvent(eventId);
+                EventList = ModelHelper.FillEventsList(matchModel.Id);
+            }
+            catch (Exception)
+            {
 
-            EventList = ModelHelper.FillEventsList(matchModel.Id);
+            }
+           
 
         }
 
@@ -438,8 +525,16 @@ namespace WpfApplication1
 
             RESTHelper.RemoveEvent(eventId);
 
-            EventList = ModelHelper.FillEventsList(matchModel.Id);
-            OnPropertyChanged("EventList");
+            try
+            {
+                EventList = ModelHelper.FillEventsList(matchModel.Id);
+                OnPropertyChanged("EventList");
+            }
+            catch (Exception)
+            {
+
+            }
+            
 
             DeleteCanExcecute = true;
         }

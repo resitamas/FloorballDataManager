@@ -31,9 +31,6 @@ namespace WpfApplication1
         public int selectedRadioButtonName;
         public int selectedId;
 
-        //ObservableCollection<ListItemModel> modelRight;
-        //ObservableCollection<ListItemModel> modelLeft;
-
         public ObservableCollection<ListItemModel> RightList { get; set; }
 
         public ObservableCollection<ListItemModel> LeftList { get; set; }
@@ -48,13 +45,10 @@ namespace WpfApplication1
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //private JsonDeserializer deserial;
 
         public MainWindow()
         {
             InitializeComponent();
-
-            //deserial = new JsonDeserializer();
 
             Ids = new Dictionary<int, bool>();
 
@@ -101,15 +95,24 @@ namespace WpfApplication1
         {
             ObservableCollection<ListItemModel> players = new ObservableCollection<ListItemModel>();
 
-            List<PlayerModel> playersList = RESTHelper.GetAllPlayer();
-            foreach (var player in playersList)
+            try
             {
-                var model = new ListItemModel();
-                model.Name = player.Name;
-                model.Id = player.RegNum;
+                List<PlayerModel> playersList = RESTHelper.GetAllPlayer();
+                foreach (var player in playersList)
+                {
+                    var model = new ListItemModel();
+                    model.Name = player.Name;
+                    model.Id = player.RegNum;
 
-                players.Add(model);
+                    players.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
             
             return players;
 
@@ -119,15 +122,23 @@ namespace WpfApplication1
         {
             ObservableCollection<ListItemModel> teams = new ObservableCollection<ListItemModel>();
 
-            List<TeamModel> teamList = RESTHelper.GetTeamsByLeague(leagueId);
-            foreach (var team in teamList)
+            try
             {
-                var model = new ListItemModel();
-                model.Name = team.Name;
-                model.Id = team.Id;
+                List<TeamModel> teamList = RESTHelper.GetTeamsByLeague(leagueId);
+                foreach (var team in teamList)
+                {
+                    var model = new ListItemModel();
+                    model.Name = team.Name;
+                    model.Id = team.Id;
 
-                teams.Add(model);
+                    teams.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return teams;
         }
@@ -136,17 +147,25 @@ namespace WpfApplication1
         {
             ObservableCollection<ListItemModel> matches = new ObservableCollection<ListItemModel>();
 
-            List<MatchModel> matchesList = RESTHelper.GetMatchesByLeague(leagueId);
-            foreach (var match in matchesList)
+            try
             {
-                var model = new ListItemModel();
-                TeamModel homeTeam = RESTHelper.GetTeamById(match.HomeTeamId);
-                TeamModel awayTeam = RESTHelper.GetTeamById(match.AwayTeamId);
-                model.Name = homeTeam.Name + " - " + awayTeam.Name;
-                model.Id = match.Id;
+                List<MatchModel> matchesList = RESTHelper.GetMatchesByLeague(leagueId);
+                foreach (var match in matchesList)
+                {
+                    var model = new ListItemModel();
+                    TeamModel homeTeam = RESTHelper.GetTeamById(match.HomeTeamId);
+                    TeamModel awayTeam = RESTHelper.GetTeamById(match.AwayTeamId);
+                    model.Name = homeTeam.Name + " - " + awayTeam.Name;
+                    model.Id = match.Id;
 
-                matches.Add(model);
+                    matches.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return matches;
         }
@@ -155,16 +174,24 @@ namespace WpfApplication1
         {
             ObservableCollection<ListItemModel> referees = new ObservableCollection<ListItemModel>();
 
-            List<RefereeModel> refereesList = RESTHelper.GetAllReferee();
-
-            foreach (var referee in refereesList)
+            try
             {
-                var model = new ListItemModel();
-                model.Name = referee.Name;
-                model.Id = referee.Id;
+                List<RefereeModel> refereesList = RESTHelper.GetAllReferee();
 
-                referees.Add(model);
+                foreach (var referee in refereesList)
+                {
+                    var model = new ListItemModel();
+                    model.Name = referee.Name;
+                    model.Id = referee.Id;
+
+                    referees.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return referees;
         }
@@ -172,118 +199,108 @@ namespace WpfApplication1
         private void loadListBoxes(object year, object table)
         {
 
-            if (year == null || table == null)
-                return;
-
-
-            if (Convert.ToInt32(table) == 1)
+            try
             {
-                LeftList = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
-                OnPropertyChanged("LeftList");
-
-                RightList = LoadListBoxWithPlayers();
-                OnPropertyChanged("RightList");
-
-                //modelRight = LoadListBoxWithPlayers();
-                //modelLeft = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
-
-                //leftList.ItemsSource = modelLeft;
-                //rightList.ItemsSource = modelRight;
+                if (year == null || table == null)
+                    return;
 
 
-            }
-            else
-            {
-                if (Convert.ToInt32(table) == 0)
+                if (Convert.ToInt32(table) == 1)
                 {
-
-                    LeftList = LoadListBoxWithTeams(Convert.ToInt32(comboBoxLeague.SelectedValue));
+                    LeftList = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
                     OnPropertyChanged("LeftList");
 
                     RightList = LoadListBoxWithPlayers();
                     OnPropertyChanged("RightList");
 
                     //modelRight = LoadListBoxWithPlayers();
-                    //modelLeft = LoadListBoxWithTeams(Convert.ToInt32(comboBoxLeague.SelectedValue));
+                    //modelLeft = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
 
-                    //rightList.ItemsSource = modelRight;
                     //leftList.ItemsSource = modelLeft;
+                    //rightList.ItemsSource = modelRight;
+
+
                 }
                 else
                 {
-                    if (Convert.ToInt32(table) == 2)
+                    if (Convert.ToInt32(table) == 0)
                     {
 
-                        LeftList = LoadListBoxWithReferees();
+                        LeftList = LoadListBoxWithTeams(Convert.ToInt32(comboBoxLeague.SelectedValue));
                         OnPropertyChanged("LeftList");
 
-                        RightList = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
+                        RightList = LoadListBoxWithPlayers();
                         OnPropertyChanged("RightList");
 
+                        //modelRight = LoadListBoxWithPlayers();
+                        //modelLeft = LoadListBoxWithTeams(Convert.ToInt32(comboBoxLeague.SelectedValue));
+
+                        //rightList.ItemsSource = modelRight;
+                        //leftList.ItemsSource = modelLeft;
                     }
+                    else
+                    {
+                        if (Convert.ToInt32(table) == 2)
+                        {
+
+                            LeftList = LoadListBoxWithReferees();
+                            OnPropertyChanged("LeftList");
+
+                            RightList = LoadListBoxWithMatches(Convert.ToInt32(comboBoxLeague.SelectedValue));
+                            OnPropertyChanged("RightList");
+
+                        }
+                    }
+
                 }
+            }
+            catch (Exception)
+            {
 
             }
+            
 
 
         }
 
         private void UpdateModelRight(int id)
         {
-            if (comboBoxTable.SelectedIndex == 1)
+            try
             {
-                var match = RESTHelper.GetMatchById(id);
-                var homeTeamPlayers = RESTHelper.GetPlayersByTeam(match.HomeTeamId);
-                var awayTeamPlayers = RESTHelper.GetPlayersByTeam(match.AwayTeamId);
-
-                while (RightList.Count != 0)
+                if (comboBoxTable.SelectedIndex == 1)
                 {
-                    RightList.RemoveAt(0);
-                }
+                    var match = RESTHelper.GetMatchById(id);
+                    var homeTeamPlayers = RESTHelper.GetPlayersByTeam(match.HomeTeamId);
+                    var awayTeamPlayers = RESTHelper.GetPlayersByTeam(match.AwayTeamId);
 
-                List<PlayerModel> playersList = homeTeamPlayers;
-                playersList = playersList.Concat(awayTeamPlayers).ToList();
-                List<PlayerModel> players = RESTHelper.GetPlayersByMatch(match.Id);
-                foreach (var player in playersList)
-                {
-                    var model = new ListItemModel(players.Select(p => p.RegNum).ToList().Contains(player.RegNum) ? true : false);
-                    model.Name = player.Name;
-                    model.Id = player.RegNum;
-
-                    RightList.Add(model);
-                }
-
-            }
-            else
-            {
-                if (comboBoxTable.SelectedIndex == 0)
-                {
-                    allowAddingId = false;
-                    List<PlayerModel> playersInTeam = RESTHelper.GetPlayersByTeam(id);
-
-                    foreach (var p in RightList)
+                    while (RightList.Count != 0)
                     {
-                        if (playersInTeam.Select(p1 => p1.RegNum).Contains(p.Id))
-                        {
-                            p.IsChecked = true;
-                        }
-                        else
-                        {
-                            p.IsChecked = false;
-                        }
+                        RightList.RemoveAt(0);
                     }
-                    allowAddingId = true;
+
+                    List<PlayerModel> playersList = homeTeamPlayers;
+                    playersList = playersList.Concat(awayTeamPlayers).ToList();
+                    List<PlayerModel> players = RESTHelper.GetPlayersByMatch(match.Id);
+                    foreach (var player in playersList)
+                    {
+                        var model = new ListItemModel(players.Select(p => p.RegNum).ToList().Contains(player.RegNum) ? true : false);
+                        model.Name = player.Name;
+                        model.Id = player.RegNum;
+
+                        RightList.Add(model);
+                    }
+
                 }
                 else
                 {
-                    if (comboBoxTable.SelectedIndex == 2)
+                    if (comboBoxTable.SelectedIndex == 0)
                     {
                         allowAddingId = false;
-                        List<MatchModel> matches = RESTHelper.GetMatchesByReferee(selectedId);
+                        List<PlayerModel> playersInTeam = RESTHelper.GetPlayersByTeam(id);
 
                         foreach (var p in RightList)
                         {
-                            if (matches.Select(m => m.Id).Contains(p.Id))
+                            if (playersInTeam.Select(p1 => p1.RegNum).Contains(p.Id))
                             {
                                 p.IsChecked = true;
                             }
@@ -294,8 +311,34 @@ namespace WpfApplication1
                         }
                         allowAddingId = true;
                     }
+                    else
+                    {
+                        if (comboBoxTable.SelectedIndex == 2)
+                        {
+                            allowAddingId = false;
+                            List<MatchModel> matches = RESTHelper.GetMatchesByReferee(selectedId);
+
+                            foreach (var p in RightList)
+                            {
+                                if (matches.Select(m => m.Id).Contains(p.Id))
+                                {
+                                    p.IsChecked = true;
+                                }
+                                else
+                                {
+                                    p.IsChecked = false;
+                                }
+                            }
+                            allowAddingId = true;
+                        }
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+            }
+            
         }   
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -354,41 +397,49 @@ namespace WpfApplication1
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBoxTable.SelectedIndex == 1)
+            try
             {
-                foreach (var id in Ids)
-                {
-                    if (id.Value)
-                    {
-                        RESTHelper.AddPlayerToMatch(id.Key, selectedId);
-                    }
-                    else
-                    {
-                        RESTHelper.RemovePlayerFromMatch(id.Key, selectedId);
-                    }
-                }
-            }
-            else
-            {
-                if (comboBoxTable.SelectedIndex == 0)
+                if (comboBoxTable.SelectedIndex == 1)
                 {
                     foreach (var id in Ids)
                     {
                         if (id.Value)
                         {
-                            RESTHelper.AddPlayerToTeam(id.Key,selectedId);
+                            RESTHelper.AddPlayerToMatch(id.Key, selectedId);
                         }
                         else
                         {
-                            RESTHelper.RemovePlayerFromTeam(id.Key,selectedId);
+                            RESTHelper.RemovePlayerFromMatch(id.Key, selectedId);
                         }
                     }
                 }
+                else
+                {
+                    if (comboBoxTable.SelectedIndex == 0)
+                    {
+                        foreach (var id in Ids)
+                        {
+                            if (id.Value)
+                            {
+                                RESTHelper.AddPlayerToTeam(id.Key, selectedId);
+                            }
+                            else
+                            {
+                                RESTHelper.RemovePlayerFromTeam(id.Key, selectedId);
+                            }
+                        }
+                    }
+                }
+                Ids = new Dictionary<int, bool>();
+                buttonSave.IsEnabled = false;
+                buttonBack.IsEnabled = false;
+                MaintainRadioButtons();
             }
-            Ids = new Dictionary<int, bool>();
-            buttonSave.IsEnabled = false;
-            buttonBack.IsEnabled = false;
-            MaintainRadioButtons();
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void buttonBack_Click(object sender, RoutedEventArgs e)

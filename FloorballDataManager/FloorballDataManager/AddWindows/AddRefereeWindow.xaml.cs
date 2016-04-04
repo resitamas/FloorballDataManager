@@ -36,10 +36,18 @@ namespace WpfApplication1.AddWindows
 
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            RESTHelper.AddReferee(RefereeName);
+            try
+            {
+                RESTHelper.AddReferee(RefereeName);
 
-            MessageBox.Show("A bíró sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+                MessageBox.Show("A bíró sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void BackButtonClicked(object sender, RoutedEventArgs e)

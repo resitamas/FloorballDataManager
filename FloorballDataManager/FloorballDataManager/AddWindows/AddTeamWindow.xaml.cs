@@ -49,10 +49,18 @@ namespace WpfApplication1
 
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            RESTHelper.AddTeam(TeamName, DateTime.ParseExact(Year, "yyyy", CultureInfo.InvariantCulture), Coach, Convert.ToInt32(stadium.SelectedValue), Convert.ToInt32(league.SelectedValue));
+            try
+            {
+                RESTHelper.AddTeam(TeamName, DateTime.ParseExact(Year, "yyyy", CultureInfo.InvariantCulture), Coach, Convert.ToInt32(stadium.SelectedValue), Convert.ToInt32(league.SelectedValue));
 
-            MessageBox.Show("A csapat sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
+                MessageBox.Show("A csapat sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
+                Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            
         }
 
         private void BackButtonClicked(object sender, RoutedEventArgs e)

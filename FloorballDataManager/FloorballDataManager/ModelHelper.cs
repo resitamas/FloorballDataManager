@@ -16,29 +16,41 @@ namespace WpfApplication1
         public static ObservableCollection<ComboboxModel> FillLeaguesComboBox()
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<LeagueModel> list = RESTHelper.GetAllLeague();
-            foreach (var l in list)
+            try
             {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = l.Name + " - " + l.Year.ToString("yyyy");
-                model.Id = l.Id;
-                comboboxModel.Add(model);
+                List<LeagueModel> list = RESTHelper.GetAllLeague();
+                foreach (var l in list)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = l.Name + " - " + l.Year.ToString("yyyy");
+                    model.Id = l.Id;
+                    comboboxModel.Add(model);
+                }
             }
-
+            catch (Exception){}
+           
             return comboboxModel;
         }
 
         public static ObservableCollection<ComboboxModel> FillStadiumsComboBox()
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<StadiumModel> list = RESTHelper.GetAllStadium();
-            foreach (var l in list)
+            try
             {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = l.Name;
-                model.Id = l.Id;
-                comboboxModel.Add(model);
+                List<StadiumModel> list = RESTHelper.GetAllStadium();
+                foreach (var l in list)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = l.Name;
+                    model.Id = l.Id;
+                    comboboxModel.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -46,14 +58,22 @@ namespace WpfApplication1
         public static ObservableCollection<ComboboxModel> FillTeamsComboBox(int leagueId)
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<TeamModel> list = RESTHelper.GetTeamsByLeague(leagueId);
-            foreach (var l in list)
+            try
             {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = l.Name;
-                model.Id = l.Id;
-                comboboxModel.Add(model);
+                List<TeamModel> list = RESTHelper.GetTeamsByLeague(leagueId);
+                foreach (var l in list)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = l.Name;
+                    model.Id = l.Id;
+                    comboboxModel.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -61,11 +81,19 @@ namespace WpfApplication1
         public static ObservableCollection<int> FillRoundsComboBox(int leagueId)
         {
             ObservableCollection<int> comboboxModel = new ObservableCollection<int>();
-            int round = RESTHelper.GetRoundsByLeague(leagueId);
-            for (int i = 1; i <= round; i++)
+            try
             {
-                comboboxModel.Add(i);
+                int round = RESTHelper.GetRoundsByLeague(leagueId);
+                for (int i = 1; i <= round; i++)
+                {
+                    comboboxModel.Add(i);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -74,94 +102,111 @@ namespace WpfApplication1
         {
             ObservableCollection<Model.EventModel> eventModels = new ObservableCollection<Model.EventModel>();
 
-            List<FloorballServer.Models.Floorball.EventModel> events = RESTHelper.GetEventsByMatch(matchId);
-
-            foreach (var e in events)
+            try
             {
+                List<FloorballServer.Models.Floorball.EventModel> events = RESTHelper.GetEventsByMatch(matchId);
 
-                if (e.Type != "A")
+                foreach (var e in events)
                 {
-                    Model.EventModel model = new Model.EventModel();
-                    EventMessageModel eventMessage = RESTHelper.GetEventMessageById(e.EventMessageId);
 
-                    if (e.Type == "G")
+                    if (e.Type != "A")
                     {
-                        model.EventText = "Gól: " + RESTHelper.GetPlayerById(e.PlayerId).Name;
-                        model.EventText += " Assziszt: " + RESTHelper.GetPlayerById(events.Find(ev => ev.Time == e.Time && ev.Type == "A").PlayerId).Name;
+                        Model.EventModel model = new Model.EventModel();
+                        EventMessageModel eventMessage = RESTHelper.GetEventMessageById(e.EventMessageId);
 
-                        model.EventText += eventMessage.Code != 605 ? " - " + eventMessage.Message + " gól" : "";
-
-                    }
-                    else
-                    {
-                        if (e.Type == "P2")
+                        if (e.Type == "G")
                         {
-                            model.EventText = "2 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
-                            model.EventText += " Megnevezés: " + eventMessage.Message;
+                            model.EventText = "Gól: " + RESTHelper.GetPlayerById(e.PlayerId).Name;
+                            model.EventText += " Assziszt: " + RESTHelper.GetPlayerById(events.Find(ev => ev.Time == e.Time && ev.Type == "A").PlayerId).Name;
+
+                            model.EventText += eventMessage.Code != 605 ? " - " + eventMessage.Message + " gól" : "";
+
                         }
                         else
                         {
-                            if (e.Type == "P5")
+                            if (e.Type == "P2")
                             {
-                                model.EventText = "5 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
+                                model.EventText = "2 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
                                 model.EventText += " Megnevezés: " + eventMessage.Message;
                             }
                             else
                             {
-                                if (e.Type == "P10")
+                                if (e.Type == "P5")
                                 {
-                                    model.EventText = "10 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
+                                    model.EventText = "5 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
                                     model.EventText += " Megnevezés: " + eventMessage.Message;
                                 }
                                 else
                                 {
-                                    if (e.Type == "PV")
+                                    if (e.Type == "P10")
                                     {
-                                        model.EventText = "Végleges: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
+                                        model.EventText = "10 perc: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
                                         model.EventText += " Megnevezés: " + eventMessage.Message;
                                     }
                                     else
                                     {
-                                        if (e.Type == "I")
+                                        if (e.Type == "PV")
                                         {
-                                            //model.EventText = "Időkérérés: " +  + " kiállították.";
-                                            //model.EventText += " Megnevezés: " + e.EventMessage.Message;
+                                            model.EventText = "Végleges: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " kiállították.";
+                                            model.EventText += " Megnevezés: " + eventMessage.Message;
                                         }
                                         else
                                         {
-                                            if (e.Type == "B")
+                                            if (e.Type == "I")
                                             {
-                                                model.EventText = "Büntető rontás: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " büntetőt rontott.";
+                                                //model.EventText = "Időkérérés: " +  + " kiállították.";
+                                                //model.EventText += " Megnevezés: " + e.EventMessage.Message;
+                                            }
+                                            else
+                                            {
+                                                if (e.Type == "B")
+                                                {
+                                                    model.EventText = "Büntető rontás: " + RESTHelper.GetPlayerById(e.PlayerId).Name + " büntetőt rontott.";
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
                         }
+                        model.Time = e.Time.Split(':')[1];
+                        model.Id = e.Id;
+
+                        eventModels.Add(model);
                     }
-                    model.Time = e.Time.Split(':')[1];
-                    model.Id = e.Id;
 
-                    eventModels.Add(model);
                 }
-                
-            }
 
+            }
+            catch (Exception)
+            {
+
+            }
+            
             return eventModels;
         }
 
         public static ObservableCollection<ComboboxModel> FillPlayerCombobox(MatchModel m)
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<PlayerModel> players = RESTHelper.GetPlayersByMatch(m.Id).ToList();
-            foreach (var player in players)
-            {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = player.Name;
-                model.Id = player.Number;
 
-                comboboxModel.Add(model);
+            try
+            {
+                List<PlayerModel> players = RESTHelper.GetPlayersByMatch(m.Id).ToList();
+                foreach (var player in players)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = player.Name;
+                    model.Id = player.Number;
+
+                    comboboxModel.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -210,15 +255,23 @@ namespace WpfApplication1
                 }
             }
 
-            List<EventMessageModel> eventMessages = RESTHelper.GetEventMessagesByCategory(category);
-            foreach (var e in eventMessages)
+            try
             {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = e.Message + " (" + e.Code + ")";
-                model.Id = e.Id;
+                List<EventMessageModel> eventMessages = RESTHelper.GetEventMessagesByCategory(category);
+                foreach (var e in eventMessages)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = e.Message + " (" + e.Code + ")";
+                    model.Id = e.Id;
 
-                comboboxModel.Add(model);
+                    comboboxModel.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -226,17 +279,25 @@ namespace WpfApplication1
         public static ObservableCollection<ComboboxModel> FillHomeAndAwayTeamCombobox(MatchModel m)
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<TeamModel> teams = new List<TeamModel>();
-            teams.Add(RESTHelper.GetTeamById(m.HomeTeamId));
-            teams.Add(RESTHelper.GetTeamById(m.AwayTeamId));
-            foreach (var team in teams)
+            try
             {
-                ComboboxModel model = new ComboboxModel();
-                model.Name = team.Name;
-                model.Id = team.Id;
+                List<TeamModel> teams = new List<TeamModel>();
+                teams.Add(RESTHelper.GetTeamById(m.HomeTeamId));
+                teams.Add(RESTHelper.GetTeamById(m.AwayTeamId));
+                foreach (var team in teams)
+                {
+                    ComboboxModel model = new ComboboxModel();
+                    model.Name = team.Name;
+                    model.Id = team.Id;
 
-                comboboxModel.Add(model);
+                    comboboxModel.Add(model);
+                }
             }
+            catch (Exception)
+            {
+
+            }
+            
 
             return comboboxModel;
         }
@@ -260,20 +321,29 @@ namespace WpfApplication1
         public static ObservableCollection<ComboboxModel> FillComboboxTeamMembersPlayedInMatch(TeamModel t, MatchModel m)
         {
             ObservableCollection<ComboboxModel> comboboxModel = new ObservableCollection<ComboboxModel>();
-            List<PlayerModel> players = RESTHelper.GetPlayersByMatch(m.Id);
 
-            foreach (var p in RESTHelper.GetPlayersByTeam(t.Id))
+            try
             {
-                if (players.Select(p1 => p1.RegNum).Contains(p.RegNum))
-                {
-                    ComboboxModel model = new ComboboxModel();
-                    model.Name = p.Name + " (" + p.Number + ")";
-                    model.Id = p.RegNum;
+                List<PlayerModel> players = RESTHelper.GetPlayersByMatch(m.Id);
 
-                    comboboxModel.Add(model);
+                foreach (var p in RESTHelper.GetPlayersByTeam(t.Id))
+                {
+                    if (players.Select(p1 => p1.RegNum).Contains(p.RegNum))
+                    {
+                        ComboboxModel model = new ComboboxModel();
+                        model.Name = p.Name + " (" + p.Number + ")";
+                        model.Id = p.RegNum;
+
+                        comboboxModel.Add(model);
+                    }
+
                 }
-                
             }
+            catch (Exception)
+            {
+
+            }
+           
 
             return comboboxModel;
         }

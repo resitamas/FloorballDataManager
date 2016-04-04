@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,7 @@ namespace WpfApplication1.AddWindows
 
         private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
+            RESTHelper.AddMatch(Convert.ToInt32(league.SelectedValue), Convert.ToInt32(round.SelectedValue), Convert.ToInt32(home.SelectedValue), Convert.ToInt32(away.SelectedValue), date.SelectedDate.Value.ToString("yyyy-HH-dd", CultureInfo.InvariantCulture), Convert.ToInt32(stadium.SelectedValue));
 
             MessageBox.Show("A mérkőzés sikeresen létrejött!", "Sikeres mentés", MessageBoxButton.OK, MessageBoxImage.Information);
             Close();
