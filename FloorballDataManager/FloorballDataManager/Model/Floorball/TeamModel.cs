@@ -11,7 +11,7 @@ namespace FloorballServer.Models.Floorball
 
         public string Name { get; set; }
 
-        public System.DateTime Year { get; set; }
+        public DateTime Year { get; set; }
 
         public string Coach { get; set; }
 

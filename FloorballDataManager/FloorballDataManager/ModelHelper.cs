@@ -169,7 +169,12 @@ namespace WpfApplication1
                                 }
                             }
                         }
-                        model.Time = e.Time.Split(':')[1];
+
+                        string minutes = e.Time.Minutes == 0 ? "00" : e.Time.Minutes.ToString();
+                        string seconds = e.Time.Seconds == 0 ? "00" : e.Time.Seconds.ToString();
+
+                        model.Time = minutes + ":" + seconds;
+                        
                         model.Id = e.Id;
 
                         eventModels.Add(model);

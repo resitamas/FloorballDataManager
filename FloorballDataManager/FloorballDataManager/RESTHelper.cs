@@ -396,7 +396,7 @@ namespace FloorballDataManager
             
         }
 
-        public static int AddMatch(int leagueId, int round, int homeTeamId, int awayTeamId, string time, int stadiumId)
+        public static int AddMatch(int leagueId, int round, int homeTeamId, int awayTeamId, DateTime date, int stadiumId)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace FloorballDataManager
                 model.Round = (short) round;
                 model.HomeTeamId = homeTeamId;
                 model.AwayTeamId = awayTeamId;
-                model.Date = time;
+                model.Date = date;
                 model.StadiumId = stadiumId;
 
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
@@ -547,7 +547,7 @@ namespace FloorballDataManager
                 eventModel.MatchId = matchId;
                 eventModel.TeamId = teamId;
                 eventModel.Type = type;
-                eventModel.Time = time.ToString(@"h\h\:m\m\:s\s", System.Globalization.CultureInfo.InvariantCulture);
+                eventModel.Time = time;//.ToString(@"h\h\:m\m\:s\s", System.Globalization.CultureInfo.InvariantCulture);
                 eventModel.EventMessageId = eventMessageId;
                 eventModel.PlayerId = playerId;
 

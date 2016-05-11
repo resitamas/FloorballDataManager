@@ -310,10 +310,6 @@ namespace WpfApplication1
         {
             try
             {
-
-            }
-            catch (Exception)
-            {
                 TimeSpan time = TimeSpan.ParseExact(NewTime, "mm\\:ss", CultureInfo.InvariantCulture);
 
                 if (eventTypes.SelectedIndex == 0)
@@ -368,6 +364,10 @@ namespace WpfApplication1
 
                 EventList = ModelHelper.FillEventsList(matchModel.Id);
                 OnPropertyChanged("EventList");
+            }
+            catch (Exception)
+            {
+                
             }
             
         }
