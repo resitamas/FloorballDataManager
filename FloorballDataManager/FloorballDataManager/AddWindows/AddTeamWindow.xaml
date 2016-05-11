@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1"
         mc:Ignorable="d"
-        Title="Új csapat" Height="350" Width="600"
+        Title="Új csapat" Height="380" Width="600"
         ResizeMode="NoResize">
     <Window.CommandBindings>
         <CommandBinding Command="ApplicationCommands.Save"  CanExecute="SaveCommandCanExecute" Executed="SaveCommandExecuted"/>
@@ -27,6 +27,7 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
@@ -37,11 +38,13 @@
             <Label Grid.Row="2" Grid.Column="0" Content="Év:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="3" Grid.Column="0" Content="Stadion:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <Label Grid.Row="4" Grid.Column="0" Content="Bajnokság:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            <Label Grid.Row="5" Grid.Column="0" Content="Nem:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TeamName}" x:Name="nameText" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></TextBox>
             <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Coach}" x:Name="coach" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></TextBox>
             <ComboBox Grid.Row="2" Grid.Column="1" SelectedValue="{Binding Year}" x:Name="years" HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
-            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=ComboboxLeagueModel}" DisplayMemberPath="DisplayName" SelectedValuePath="Id" x:Name="stadium"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
-            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=ComboboxStadiumModel}" DisplayMemberPath="DisplayName" SelectedValuePath="Id" x:Name="league"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
+            <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=ComboboxModel}" DisplayMemberPath="DisplayName" SelectedValuePath="Id" x:Name="stadium"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
+            <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=ComboboxModel}" DisplayMemberPath="DisplayName" SelectedValuePath="Id" x:Name="league"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
+            <ComboBox Grid.Row="5" Grid.Column="1" SelectedValue="{Binding Sex}"  x:Name="sex"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="250"></ComboBox>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200">
             <Grid.RowDefinitions>

@@ -25,6 +25,9 @@ namespace FloorballServer.Models.Floorball
 
         public short Scored { get; set; }
 
+        public string Sex { get; set; }
+
+
         public short Get { get; set; }
 
         public int StadiumId { get; set; }

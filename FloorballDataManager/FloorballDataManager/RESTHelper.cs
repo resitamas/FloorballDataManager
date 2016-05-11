@@ -244,6 +244,41 @@ namespace FloorballDataManager
            
         }
 
+        public static void RemoveRefereeFromMatch(int refereeId, int matchId)
+        {
+            try
+            {
+                FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
+                Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "refereeId", refereeId.ToString() }, { "matchId", matchId.ToString() } };
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}}", Method.DELETE, urlParams) as RestResponse;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        public static void AddRefereeToMatch(int refereeId, int matchId)
+        {
+            try
+            {
+                FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
+                Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "refereeId", refereeId.ToString() }, { "matchId", matchId.ToString() } };
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}}", Method.PUT, urlParams) as RestResponse;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+
         public static List<LeagueModel> GetAllLeague()
         {
             try
@@ -461,7 +496,7 @@ namespace FloorballDataManager
             
         }
 
-        public static int AddTeam(string name, DateTime year, string coach, int stadiumId, int leagueId)
+        public static int AddTeam(string name, DateTime year, string coach, string sex, int stadiumId, int leagueId)
         {
             try
             {
@@ -471,6 +506,7 @@ namespace FloorballDataManager
                 model.Coach = coach;
                 model.StadiumId = stadiumId;
                 model.LeagueId = leagueId;
+                model.Sex = sex;
 
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 RestResponse response = client.ExecuteRequest("/api/floorball/teams", Method.POST, null, null, model) as RestResponse;

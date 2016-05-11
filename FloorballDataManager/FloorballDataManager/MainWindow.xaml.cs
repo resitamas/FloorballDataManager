@@ -429,6 +429,25 @@ namespace WpfApplication1
                             }
                         }
                     }
+                    else
+                    {
+                        if (comboBoxTable.SelectedIndex == 2)
+                        {
+                            foreach (var id in Ids)
+                            {
+                                if (id.Value)
+                                {
+                                    //RESTHelper.AddPlayerToTeam(id.Key, selectedId);
+                                    RESTHelper.AddRefereeToMatch(id.Key, selectedId);
+                                }
+                                else
+                                {
+                                    //RESTHelper.RemovePlayerFromTeam(id.Key, selectedId);
+                                    RESTHelper.RemoveRefereeFromMatch(id.Key, selectedId);
+                                }
+                            }
+                        }
+                    }
                 }
                 Ids = new Dictionary<int, bool>();
                 buttonSave.IsEnabled = false;
