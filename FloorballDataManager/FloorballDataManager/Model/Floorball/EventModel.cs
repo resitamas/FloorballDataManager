@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace FloorballServer.Models.Floorball
 {
@@ -11,7 +12,10 @@ namespace FloorballServer.Models.Floorball
 
         public string Type { get; set; }
 
+        //[ScriptIgnore]
         public TimeSpan Time { get; set; }
+
+        //public string Time { get; set; }
 
         public int MatchId { get; set; }
 

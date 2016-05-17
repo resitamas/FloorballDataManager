@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using FloorballDataManager;
+using RestSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,11 @@ namespace WpfApplication1
 
         public FloorballRESTClient(string url) : base(url)
         {
-
+            AddHandler("application/json", NewtonsoftJsonSerializer.Default);
+            AddHandler("text/json", NewtonsoftJsonSerializer.Default);
+            AddHandler("text/x-json", NewtonsoftJsonSerializer.Default);
+            AddHandler("text/javascript", NewtonsoftJsonSerializer.Default);
+            AddHandler("*+json", NewtonsoftJsonSerializer.Default);
         }
 
         public IRestResponse ExecuteRequest(string path, Method method, Dictionary<string, string> urlParams = null, Dictionary<string, string> queryParams = null, object body = null, Dictionary<string,string> headers = null)
@@ -42,6 +47,8 @@ namespace WpfApplication1
                     response = ExecuteGET(urlParams) as RestResponse;
                     break;
                 case Method.POST:
+                    request.RequestFormat = DataFormat.Json;
+                    request.JsonSerializer = NewtonsoftJsonSerializer.Default;
                     response = ExecutePOST(body) as RestResponse;
                     break;
                 case Method.PUT:

@@ -182,7 +182,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "playerId", playerId.ToString() }, { "teamId", teamId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/teams/{teamId}/players/{playerId}}", Method.PUT, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/teams/{teamId}/players/{playerId}", Method.PUT, urlParams) as RestResponse;
 
             }
             catch (Exception)
@@ -199,7 +199,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "playerId", playerId.ToString() }, { "matchId", matchId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/players/{playerId}}", Method.PUT, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/players/{playerId}", Method.PUT, urlParams) as RestResponse;
 
             }
             catch (Exception)
@@ -216,7 +216,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "playerId", playerId.ToString() }, { "matchId", matchId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/players/{playerId}}", Method.DELETE, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/players/{playerId}", Method.DELETE, urlParams) as RestResponse;
 
             }
             catch (Exception)
@@ -233,7 +233,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "playerId", playerId.ToString() }, { "teamId", teamId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/teams/{teamId}/players/{playerId}}", Method.DELETE, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/teams/{teamId}/players/{playerId}", Method.DELETE, urlParams) as RestResponse;
 
             }
             catch (Exception)
@@ -250,7 +250,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "refereeId", refereeId.ToString() }, { "matchId", matchId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}}", Method.DELETE, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}", Method.DELETE, urlParams) as RestResponse;
 
             }
             catch (Exception)
@@ -267,7 +267,7 @@ namespace FloorballDataManager
             {
                 FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
                 Dictionary<string, string> urlParams = new Dictionary<string, string>() { { "refereeId", refereeId.ToString() }, { "matchId", matchId.ToString() } };
-                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}}", Method.PUT, urlParams) as RestResponse;
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches/{matchId}/referees/{refereeId}", Method.PUT, urlParams) as RestResponse;
 
             }
             catch (Exception)

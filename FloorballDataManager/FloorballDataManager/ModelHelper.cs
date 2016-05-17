@@ -173,6 +173,9 @@ namespace WpfApplication1
                         string minutes = e.Time.Minutes == 0 ? "00" : e.Time.Minutes.ToString();
                         string seconds = e.Time.Seconds == 0 ? "00" : e.Time.Seconds.ToString();
 
+                        //string minutes = "perc";
+                        //string seconds = "mperc";
+
                         model.Time = minutes + ":" + seconds;
                         
                         model.Id = e.Id;
