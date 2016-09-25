@@ -52,7 +52,9 @@ namespace WpfApplication1
                     response = ExecutePOST(body) as RestResponse;
                     break;
                 case Method.PUT:
-                    response = ExecutePUT() as RestResponse;
+                    request.RequestFormat = DataFormat.Json;
+                    request.JsonSerializer = NewtonsoftJsonSerializer.Default;
+                    response = ExecutePUT(body) as RestResponse;
                     break;
                 case Method.DELETE:
                     response = ExecuteDELETE() as RestResponse;
@@ -105,9 +107,13 @@ namespace WpfApplication1
             return Execute(request);
         }
 
-        private IRestResponse ExecutePUT()
+        private IRestResponse ExecutePUT(object body)
         {
-            return Execute(request);
+            if (body != null)
+            {
+                request.AddJsonBody(body);
+            }
+            return ExecuteAsPost(request,"PUT");
         }
 
     }

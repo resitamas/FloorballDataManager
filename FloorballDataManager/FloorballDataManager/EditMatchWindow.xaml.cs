@@ -545,5 +545,22 @@ namespace WpfApplication1
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void actualTime_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+            try
+            {
+
+                matchModel.Time = TimeSpan.Parse("00:"+(sender as TextBox).Text);
+
+                RESTHelper.UpdateMatch(matchModel);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+        }
     }
 }

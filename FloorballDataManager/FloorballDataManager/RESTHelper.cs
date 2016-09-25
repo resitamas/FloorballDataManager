@@ -557,6 +557,23 @@ namespace FloorballDataManager
             
         }
 
+        public static MatchModel UpdateMatch(MatchModel match)
+        {
+            try
+            {
+                FloorballRESTClient client = new FloorballRESTClient(Settings.Default.ServerURL);
+                Dictionary<string, string> headers = new Dictionary<string, string>() { { "Content-Type", "application/json" } };
+                RestResponse response = client.ExecuteRequest("/api/floorball/matches", Method.PUT, null, null, match, headers) as RestResponse;
+
+                return deserial.Deserialize<MatchModel>(response);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public static EventMessageModel GetEventMessageById(int eventMessageId)
         {
             try

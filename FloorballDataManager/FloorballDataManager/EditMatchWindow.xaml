@@ -90,7 +90,7 @@
             </WrapPanel>
         </Grid>
         <Button Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Hozzáad" Command="ApplicationCommands.Save" HorizontalContentAlignment="Center"  Width="100"/>
-        <wpfTool:MaskedTextBox x:Name="actualTime" Text="{Binding ActualTime, Mode=TwoWay}" HorizontalContentAlignment="Center"  Mask="00:00" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="55" Height="30" FontSize="20"></wpfTool:MaskedTextBox>
+        <wpfTool:MaskedTextBox x:Name="actualTime" Text="{Binding ActualTime, Mode=TwoWay}" HorizontalContentAlignment="Center"  Mask="00:00" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="55" Height="30" FontSize="20" TextChanged="actualTime_TextChanged"></wpfTool:MaskedTextBox>
         <ScrollViewer Grid.Row="6" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <ItemsControl x:Name="events" HorizontalAlignment="Stretch" VerticalAlignment="Top" ItemsSource="{Binding EventList, Mode=TwoWay}" Margin="40 0 0 0">
                 <ItemsControl.ItemTemplate>
